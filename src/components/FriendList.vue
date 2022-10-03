@@ -10,9 +10,9 @@
       class="friend-list-item"
       v-for="friend in friends"
       :key="friend.friendshipId"
+      @click="connectFriend(friend)"
     >
       <p>@{{ friend.friendName }}</p>
-      <button @click="connectFriend(friend)">chat</button>
     </div>
   </div>
 </template>

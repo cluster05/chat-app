@@ -4,18 +4,24 @@
       <FriendList />
     </div>
     <div class="chat-ui">
-      <Chat />
+      <Chat v-if="chat.friend.friendshipId" :key="chat.friend.friendshipId"/>
     </div>
   </div>
 </template>
 
 <script>
 import FriendList from "@/components/FriendList.vue";
+import { mapGetters } from "vuex";
 import Chat from "@/components/Chat.vue";
 export default {
   components: {
     FriendList,
     Chat,
+  },
+  computed : {
+    ...mapGetters({
+      chat: "getChat",
+    }),
   },
   data() {
     return {};

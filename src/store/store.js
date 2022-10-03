@@ -1,28 +1,10 @@
 import { createStore } from "vuex";
 import http from "@/service/http";
 import jwt_decode from "jwt-decode";
-
-let initAuth = {
-  token: "",
-  user: {},
-  isAuthanticated: false,
-};
-
-let initChat = {
-  friends: [],
-  chat: {
-    friend: {},
-    chat: [],
-  },
-};
-
-let initState = {
-  ...initAuth,
-  ...initChat,
-};
+import state from './state'
 
 const store = createStore({
-  state: initState,
+  state,
   getters: {
     isAuthanticated(state) {
       return state.token;
@@ -90,7 +72,6 @@ const store = createStore({
       state.chat.chat = []
       state.chat.friend = {}
       state.friends = friends
-
     },
   },
   actions: {
@@ -140,6 +121,9 @@ const store = createStore({
         console.log(error);
       }
     },
+    async sendMessage({state,commit},payload){
+      console.log('[state][send message]',payload);
+    }
   },
 });
 
