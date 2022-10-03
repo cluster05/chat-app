@@ -1,21 +1,27 @@
 <template>
-  <Auth />
+  <Layout v-if="isAuthanticated" />
+  <Auth v-else />
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Auth from "./views/Auth.vue";
+import Layout from "./views/Layout.vue";
 export default {
   name: "App",
-  components: { Auth },
-  data() {},
+  components: { Auth, Layout },
+  data() {
+    return {};
+  },
+  mounted() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.$store.commit("authanticate", { token });
+    }
+    console.log("[App] mounted");
+  },
   computed: {
-    isAuthanticate() {
-      let accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        return false;
-      }
-      return true;
-    },
+    ...mapGetters(["isAuthanticated"]),
   },
 };
 </script>

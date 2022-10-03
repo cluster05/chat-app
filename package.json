@@ -11,6 +11,8 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
+    "oh-vue-icons": "^1.0.0-rc3",
     "socket.io-client": "^4.5.2",
     "vue": "^3.2.13",
     "vuex": "^4.0.2"

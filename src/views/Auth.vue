@@ -99,9 +99,13 @@ export default {
         return;
       }
       if (error.length == 0) this.form.errors = [];
+
       this.$store.dispatch("authanticate", {
         type: this.formstate,
-        data: this.form,
+        data: {
+          username: this.form.username,
+          password: this.form.password,
+        },
       });
     },
   },
