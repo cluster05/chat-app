@@ -1,6 +1,9 @@
 <template>
   <div v-if="chat.friend.friendName" class="chat">
-    <div class="friend-name">@{{ chat.friend.friendName }}</div>
+    <div class="chat-header">
+      <div class="friend-name">@{{ chat.friend.friendName }}</div>
+      <button class="unfriend" @click="disconnetFriend">disconnect</button>
+    </div>
     <div class="chatting"></div>
     <div class="message-box">
       <div class="message-field">
@@ -22,6 +25,11 @@ export default {
       chat: "getChat",
     }),
   },
+  methods: {
+    async disconnetFriend() {
+      this.$store.dispatch("disconnetFriend", { friendshipId: this.chat.friend.friendshipId });
+    },
+  },
 };
 </script>
 
@@ -29,8 +37,14 @@ export default {
 .chat {
   @apply w-full h-full relative;
 }
+.chat-header {
+  @apply px-4 py-2   flex justify-between items-center border-b;
+}
 .friend-name {
-  @apply w-full px-4 py-2 border-b  bg-white hover:bg-gray-50 cursor-pointer;
+  @apply w-full bg-white hover:bg-gray-50 cursor-pointer;
+}
+.unfriend {
+  @apply px-3 py-1 text-sm bg-red-400 hover:bg-red-500 text-red-100 rounded;
 }
 .chatting {
 }

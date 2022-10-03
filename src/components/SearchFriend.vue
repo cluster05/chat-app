@@ -23,7 +23,7 @@
         :key="search.authId"
       >
         <p>@{{ search.username }}</p>
-        <button @click="addFriend(search.authId)">add</button>
+        <button @click="connectFriend(search)">connect</button>
       </div>
     </div>
   </div>
@@ -73,19 +73,27 @@ export default {
         console.log(error);
       }
     },
-    async addFriend(friendId) {
-      if (friendId == this.user.authId) {
+    async connectFriend(friend) {
+      if (friend.friendId == this.user.authId) {
         return;
       }
 
       try {
         let response = await http.post(
           "/r/friendship/create",
-          { meId: this.user.authId, friendId },
+          { meId: this.user.authId, friendId : friend.authId },
           { headers: { Authorization: `Bearer ${this.token}` } }
         );
         if (response.data) {
-          alert("request send");
+          let data = response.data.response
+          let payload = {
+              friendId : data.friendId,
+              friendName : friend.username,
+              friendshipId : data.friendshipId,
+              isDeleted : data.isDeleted,
+              meId : data.meId,
+          }
+          this.$store.commit('setNewAddedFriend',payload)
         }
       } catch (error) {
         console.log(error);

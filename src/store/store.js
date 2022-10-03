@@ -16,11 +16,13 @@ let initChat = {
   },
 };
 
+let initState = {
+  ...initAuth,
+  ...initChat,
+};
+
 const store = createStore({
-  state: {
-    ...initAuth,
-    ...initChat,
-  },
+  state: initState,
   getters: {
     isAuthanticated(state) {
       return state.token;
@@ -56,11 +58,39 @@ const store = createStore({
       state.isAuthanticated = true;
       localStorage.setItem("token", token);
     },
+    logout(state) {
+      localStorage.removeItem("token");
+      state.isAuthanticated = false;
+      state.token = "";
+      state.user = {};
+      state.friends = [];
+      state.chat = {
+        chat: [],
+        friend: {},
+      };
+    },
+    setNewAddedFriend(state, payload) {
+      let friends = state.friends;
+      friends.push(payload);
+      state.friends = friends;
+    },
     setFriends(state, payload) {
       state.friends = payload;
     },
     setChat(state, payload) {
       state.chat = payload;
+    },
+    disconnetFriend(state,payload) {
+      const { friendshipId } = payload
+      let friends = state.friends
+      let index = friends.indexOf(f => f.friendshipId == friendshipId)
+      
+      friends.splice(index,1)
+
+      state.chat.chat = []
+      state.chat.friend = {}
+      state.friends = friends
+
     },
   },
   actions: {
@@ -97,6 +127,18 @@ const store = createStore({
     },
     async connectFriend({ commit }, payload) {
       commit("setChat", payload);
+    },
+    async disconnetFriend({ state,commit }, payload) {
+      try {
+        let response = await http.post("/r/friendship/delete", payload, {
+          headers: { Authorization: `Bearer ${state.token}` },
+        });
+        if (response.data) {
+          commit("disconnetFriend", payload);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });

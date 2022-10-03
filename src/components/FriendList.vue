@@ -2,7 +2,10 @@
   <SearchFriend />
 
   <div class="friend-list">
-    <h2>Friends List</h2>
+    <div class="friend-list-header">
+      <h2>Friends List</h2>
+      <v-icon name="io-arrow-redo" @click="logout"></v-icon>
+    </div>
     <div
       class="friend-list-item"
       v-for="friend in friends"
@@ -35,6 +38,9 @@ export default {
     connectFriend(friend) {
       this.$store.dispatch("connectFriend", { friend, chat: [] });
     },
+    logout(){
+      this.$store.commit("logout")
+    }
   },
 };
 </script>
@@ -44,7 +50,10 @@ export default {
   @apply h-full w-full;
 }
 .friend-list h2 {
-  @apply m-4 font-semibold;
+  @apply font-semibold;
+}
+.friend-list-header {
+  @apply m-4 flex justify-between items-center
 }
 .friend-list-item {
   @apply p-4 w-full bg-white hover:bg-gray-50 cursor-pointer border-b border-t flex justify-between;
@@ -53,9 +62,9 @@ export default {
   @apply text-gray-500;
 }
 .friend-list-item button {
-  @apply px-3 py-1 text-sm bg-blue-500 text-blue-100 rounded hidden;
+  @apply px-3 py-1 text-sm bg-blue-500 text-blue-100 rounded invisible;
 }
 .friend-list-item:hover button {
-  @apply block;
+  @apply visible;
 }
 </style>
