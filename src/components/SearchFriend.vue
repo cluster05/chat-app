@@ -10,6 +10,11 @@
         @input="debounceHandler"
         placeholder="search your friend here"
       />
+      <v-icon
+        v-if="search.length > 0"
+        @click="closeSearchFriend"
+        name="io-close"
+      ></v-icon>
     </div>
     <div class="search-result">
       <div
@@ -46,8 +51,13 @@ export default {
     debounceHandler: debounce(function () {
       this.searchFriend();
     }, 700),
+    closeSearchFriend() {
+      this.search = "";
+      this.searchlist = [];
+    },
     async searchFriend() {
       if (this.search == "") {
+        this.searchlist = [];
         return;
       }
       try {

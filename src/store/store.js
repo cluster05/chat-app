@@ -10,7 +10,10 @@ let initAuth = {
 
 let initChat = {
   friends: [],
-  chat: [],
+  chat: {
+    friend: {},
+    chat: [],
+  },
 };
 
 const store = createStore({
@@ -30,6 +33,9 @@ const store = createStore({
     },
     getFriends(state) {
       return state.friends;
+    },
+    getChat(state) {
+      return state.chat;
     },
   },
   mutations: {
@@ -53,6 +59,9 @@ const store = createStore({
     setFriends(state, payload) {
       state.friends = payload;
     },
+    setChat(state, payload) {
+      state.chat = payload;
+    },
   },
   actions: {
     async authanticate({ commit }, payload) {
@@ -62,7 +71,7 @@ const store = createStore({
           commit("authanticate", { token: response.data.response });
         }
       } catch (error) {
-        console.log(error);
+        console.log("error authanticate");
       }
     },
     async fetchFriends({ state, commit }) {
@@ -83,8 +92,11 @@ const store = createStore({
           commit("setFriends", response.data.response);
         }
       } catch (error) {
-        console.log(error);
+        console.log("error fetchFriends");
       }
+    },
+    async connectFriend({ commit }, payload) {
+      commit("setChat", payload);
     },
   },
 });
