@@ -30,4 +30,7 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+span img{
+  @apply w-6 h-6 cursor-pointer;
+}
 </style>
