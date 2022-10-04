@@ -1,52 +1,31 @@
 <template>
   <SearchFriend />
-  <div class="friend-list-header">
-    <h2>Hi, {{ user.username }}</h2>
-    <span @click="logout">
-      <img src="@/assets/icons/logout.svg" alt="log_out" />
-    </span>
-  </div>
+  <User />
   <div class="friend-list">
     <div class="friend-list-header">
       <h2>Friends List</h2>
     </div>
-    <div
-      class="friend-list-item"
-      v-for="friend in friends"
-      :key="friend.friendshipId"
-      @click="connectFriend(friend)"
-    >
-      <p>@{{ friend.friendName }}</p>
-    </div>
+    <FriendTile v-for="friend in friends" :friend="friend" :key="friend.friendshipId" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import SearchFriend from "./SearchFriend.vue";
+import User from "./User.vue";
+import FriendTile from "./FriendTile.vue";
 
 export default {
-  components: { SearchFriend },
-  data() {
-    return {};
-  },
+  components: { SearchFriend, User, FriendTile },
   mounted() {
     this.$store.dispatch("fetchFriends");
   },
   computed: {
     ...mapGetters({
       friends: "getFriends",
-      user: "getUser",
     }),
   },
-  methods: {
-    connectFriend(friend) {
-      this.$store.dispatch("connectFriend", { friend, chat: [] });
-    },
-    logout() {
-      this.$store.commit("logout");
-    },
-  },
+ 
 };
 </script>
 

@@ -5,9 +5,7 @@
     </div>
     <div class="chat-ui">
       <Chat v-if="chat.friend.friendshipId" :key="chat.friend.friendshipId" />
-      <div v-else class="select-friend-to-chat">
-        <span>select friend to chat</span>
-      </div>
+      <SelectFriendToChat v-else />
     </div>
   </div>
 </template>
@@ -16,10 +14,12 @@
 import FriendList from "@/components/FriendList.vue";
 import { mapGetters } from "vuex";
 import Chat from "@/components/Chat.vue";
+import SelectFriendToChat from "@/components/SelectFriendToChat.vue";
 export default {
   components: {
     FriendList,
     Chat,
+    SelectFriendToChat,
   },
   computed: {
     ...mapGetters({

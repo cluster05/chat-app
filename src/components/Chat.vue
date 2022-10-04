@@ -1,9 +1,6 @@
 <template>
-  <div v-if="chat.friend.friendName" class="chat">
-    <div class="chat-header">
-      <div class="title">@{{ chat.friend.friendName }}</div>
-      <button class="unfriend" @click="disconnetFriend">disconnect</button>
-    </div>
+  <div class="chat">
+    <ChatHeader />
     <div class="chatting"></div>
     <div class="message-box">
       <div class="message-field">
@@ -25,6 +22,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { io } from "socket.io-client";
+import ChatHeader from "./ChatHeader.vue";
 var socket;
 
 export default {
@@ -40,7 +38,6 @@ export default {
       this.chat.friend.friendshipId
     );
     socket = io("http://localhost:8000/socket.io/chat");
-
     socket.emit("join", this.chat.friend.friendshipId);
     socket.on("message", (chat) => {
       this.chatMessages.push(chat);
@@ -53,11 +50,6 @@ export default {
     }),
   },
   methods: {
-    async disconnetFriend() {
-      this.$store.dispatch("disconnetFriend", {
-        friendshipId: this.chat.friend.friendshipId,
-      });
-    },
     async sendMessage() {
       if (this.message.trim() == "") {
         return;
@@ -68,7 +60,6 @@ export default {
         to: this.chat.friend.friendId,
         message: this.message.trim(),
       });
-
       this.message = "";
     },
   },
@@ -76,6 +67,7 @@ export default {
     console.log("beforeUnmount");
     socket.disconnect();
   },
+  components: { ChatHeader },
 };
 </script>
 
@@ -105,8 +97,6 @@ export default {
   @apply w-full p-2 text-sm border rounded-md;
 }
 .message-field .icon {
-  @apply ml-2 p-1 bg-green-400 rounded-full 
+  @apply ml-2 p-1 bg-green-400 rounded-full;
 }
-
-
 </style>
