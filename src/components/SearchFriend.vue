@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div class="search-box">
-      <v-icon name="io-search-outline"></v-icon>
+      <span> <img src="@/assets/icons/search.svg" alt="log_out" /> </span>
       <input
         type="text"
         name="search"
@@ -10,11 +10,9 @@
         @input="debounceHandler"
         placeholder="search your friend here"
       />
-      <v-icon
-        v-if="search.length > 0"
-        @click="closeSearchFriend"
-        name="io-close"
-      ></v-icon>
+      <span v-if="search.length > 0" @click="closeSearchFriend">
+        <img src="@/assets/icons/close.svg" alt="close" />
+      </span>
     </div>
     <div class="search-result">
       <div
@@ -81,19 +79,19 @@ export default {
       try {
         let response = await http.post(
           "/r/friendship/create",
-          { meId: this.user.authId, friendId : friend.authId },
+          { meId: this.user.authId, friendId: friend.authId },
           { headers: { Authorization: `Bearer ${this.token}` } }
         );
         if (response.data) {
-          let data = response.data.response
+          let data = response.data.response;
           let payload = {
-              friendId : data.friendId,
-              friendName : friend.username,
-              friendshipId : data.friendshipId,
-              isDeleted : data.isDeleted,
-              meId : data.meId,
-          }
-          this.$store.commit('setNewAddedFriend',payload)
+            friendId: data.friendId,
+            friendName: friend.username,
+            friendshipId: data.friendshipId,
+            isDeleted: data.isDeleted,
+            meId: data.meId,
+          };
+          this.$store.commit("setNewAddedFriend", payload);
         }
       } catch (error) {
         console.log(error);

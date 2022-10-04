@@ -4,7 +4,10 @@
       <FriendList />
     </div>
     <div class="chat-ui">
-      <Chat v-if="chat.friend.friendshipId" :key="chat.friend.friendshipId"/>
+      <Chat v-if="chat.friend.friendshipId" :key="chat.friend.friendshipId" />
+      <div v-else class="select-friend-to-chat">
+        <span>select friend to chat</span>
+      </div>
     </div>
   </div>
 </template>
@@ -18,7 +21,7 @@ export default {
     FriendList,
     Chat,
   },
-  computed : {
+  computed: {
     ...mapGetters({
       chat: "getChat",
     }),
@@ -39,5 +42,9 @@ export default {
 }
 .chat-ui {
   @apply w-full  col-span-1 md:col-span-2 xl:col-span-3  border rounded-md;
+}
+
+.select-friend-to-chat {
+  @apply w-full h-full font-bold capitalize text-xl md:text-3xl xl:text-5xl text-gray-300 select-none flex justify-center items-center;
 }
 </style>

@@ -7,15 +7,15 @@
     <div class="chatting"></div>
     <div class="message-box">
       <div class="message-field">
-        <textarea
+        <input
           name="meesage"
           id="message"
-          rows="1"
+          placeholder="message"
           v-model="message"
           @keyup.enter="sendMessage"
-        ></textarea>
+        />
         <div class="icon" @click="sendMessage">
-          <v-icon name="io-send-sharp"></v-icon>
+          <span><img src="@/assets/icons/send.svg" alt="log_out" /> </span>
         </div>
       </div>
     </div>
@@ -25,23 +25,26 @@
 <script>
 import { mapGetters } from "vuex";
 import { io } from "socket.io-client";
-var socket 
+var socket;
 
 export default {
   data() {
     return {
       message: "",
-      chatMessages : []
+      chatMessages: [],
     };
   },
   mounted() {
-    console.log("mouned")
-    socket = io("http://localhost:8000/socket.io/chat",{pingTimeout: 10000, pingInterval: 30000});
+    console.log(
+      "socket request send to  http://localhost:8000/chat on ",
+      this.chat.friend.friendshipId
+    );
+    socket = io("http://localhost:8000/socket.io/chat");
 
     socket.emit("join", this.chat.friend.friendshipId);
-    socket.on("message", (chat) =>{
-      this.chatMessages.push(chat)
-    })
+    socket.on("message", (chat) => {
+      this.chatMessages.push(chat);
+    });
   },
   computed: {
     ...mapGetters({
@@ -69,10 +72,10 @@ export default {
       this.message = "";
     },
   },
-  beforeUnmount(){
-    console.log("beforeUnmount")
-    socket.disconnect()
-  }
+  beforeUnmount() {
+    console.log("beforeUnmount");
+    socket.disconnect();
+  },
 };
 </script>
 
@@ -98,10 +101,12 @@ export default {
 .message-field {
   @apply p-2 flex items-center;
 }
-.message-field textarea {
+.message-field input {
   @apply w-full p-2 text-sm border rounded-md;
 }
 .message-field .icon {
-  @apply ml-1 p-1 text-blue-400 hover:text-blue-600;
+  @apply ml-2 p-1 bg-green-400 rounded-full 
 }
+
+
 </style>

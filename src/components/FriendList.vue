@@ -1,10 +1,14 @@
 <template>
   <SearchFriend />
-
+  <div class="friend-list-header">
+    <h2>Hi, {{ user.username }}</h2>
+    <span @click="logout">
+      <img src="@/assets/icons/logout.svg" alt="log_out" />
+    </span>
+  </div>
   <div class="friend-list">
     <div class="friend-list-header">
       <h2>Friends List</h2>
-      <v-icon name="io-arrow-redo" @click="logout"></v-icon>
     </div>
     <div
       class="friend-list-item"
@@ -32,15 +36,16 @@ export default {
   computed: {
     ...mapGetters({
       friends: "getFriends",
+      user: "getUser",
     }),
   },
   methods: {
     connectFriend(friend) {
       this.$store.dispatch("connectFriend", { friend, chat: [] });
     },
-    logout(){
-      this.$store.commit("logout")
-    }
+    logout() {
+      this.$store.commit("logout");
+    },
   },
 };
 </script>
@@ -53,7 +58,7 @@ export default {
   @apply font-semibold;
 }
 .friend-list-header {
-  @apply m-4 flex justify-between items-center
+  @apply m-4 flex justify-between items-center;
 }
 .friend-list-item {
   @apply p-4 w-full bg-white hover:bg-gray-50 cursor-pointer border-b border-t flex justify-between;
