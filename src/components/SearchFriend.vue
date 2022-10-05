@@ -66,6 +66,8 @@ export default {
         );
         if (response.data) {
           this.searchlist = response.data.response;
+        } else {
+          this.searchlist = [];
         }
       } catch (error) {
         console.log(error);

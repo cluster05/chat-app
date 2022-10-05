@@ -1,20 +1,12 @@
-let initAuth = {
+let state = {
   token: "",
   user: {},
   isAuthanticated: false,
-};
-
-let initChat = {
   friends: [],
   chat: {
     friend: {},
-    chat: [],
+    group: {},
   },
-};
-
-let state = {
-  ...initAuth,
-  ...initChat,
 };
 
 export default state;

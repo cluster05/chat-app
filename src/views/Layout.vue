@@ -3,7 +3,7 @@
     <div class="friend-list">
       <FriendList />
     </div>
-    <div class="chat-ui">
+    <div class="chat-layout">
       <Chat v-if="chat.friend.friendshipId" :key="chat.friend.friendshipId" />
       <SelectFriendToChat v-else />
     </div>
@@ -40,8 +40,8 @@ export default {
 .friend-list {
   @apply w-full h-full col-span-1 border rounded-md;
 }
-.chat-ui {
-  @apply w-full  col-span-1 md:col-span-2 xl:col-span-3  border rounded-md;
+.chat-layout {
+  @apply w-full h-full  col-span-1 md:col-span-2 xl:col-span-3  border rounded-md relative;
 }
 
 .select-friend-to-chat {

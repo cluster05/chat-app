@@ -2,7 +2,7 @@
   <SearchFriend />
   <User />
   <div class="friend-list">
-    <div class="friend-list-header">
+    <div class="friend-list-title">
       <h2>Friends List</h2>
     </div>
     <FriendTile v-for="friend in friends" :friend="friend" :key="friend.friendshipId" />
@@ -36,7 +36,7 @@ export default {
 .friend-list h2 {
   @apply font-semibold;
 }
-.friend-list-header {
+.friend-list-header , .friend-list-title{
   @apply m-4 flex justify-between items-center;
 }
 .friend-list-item {

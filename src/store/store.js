@@ -1,10 +1,10 @@
 import { createStore } from "vuex";
 import http from "@/service/http";
 import jwt_decode from "jwt-decode";
-import state from './state'
+import initState from "./state";
 
 const store = createStore({
-  state,
+  state: initState,
   getters: {
     isAuthanticated(state) {
       return state.token;
@@ -29,8 +29,7 @@ const store = createStore({
 
       if (user.exp < parseInt(Date.now() / 1000)) {
         state = {
-          ...state,
-          ...initAuth,
+          ...initState,
         };
         return;
       }
@@ -42,13 +41,8 @@ const store = createStore({
     },
     logout(state) {
       localStorage.removeItem("token");
-      state.isAuthanticated = false;
-      state.token = "";
-      state.user = {};
-      state.friends = [];
-      state.chat = {
-        chat: [],
-        friend: {},
+      state = {
+        ...initState,
       };
     },
     setNewAddedFriend(state, payload) {
@@ -62,16 +56,16 @@ const store = createStore({
     setChat(state, payload) {
       state.chat = payload;
     },
-    disconnetFriend(state,payload) {
-      const { friendshipId } = payload
-      let friends = state.friends
-      let index = friends.indexOf(f => f.friendshipId == friendshipId)
-      
-      friends.splice(index,1)
+    disconnetFriend(state, payload) {
+      const { friendshipId } = payload;
+      let friends = state.friends;
+      let index = friends.indexOf((f) => f.friendshipId == friendshipId);
 
-      state.chat.chat = []
-      state.chat.friend = {}
-      state.friends = friends
+      friends.splice(index, 1);
+
+      state.chat.messages = [];
+      state.chat.friend = {};
+      state.friends = friends;
     },
   },
   actions: {
@@ -109,7 +103,7 @@ const store = createStore({
     async connectFriend({ commit }, payload) {
       commit("setChat", payload);
     },
-    async disconnetFriend({ state,commit }, payload) {
+    async disconnetFriend({ state, commit }, payload) {
       try {
         let response = await http.post("/r/friendship/delete", payload, {
           headers: { Authorization: `Bearer ${state.token}` },
@@ -121,9 +115,6 @@ const store = createStore({
         console.log(error);
       }
     },
-    async sendMessage({state,commit},payload){
-      console.log('[state][send message]',payload);
-    }
   },
 });
 

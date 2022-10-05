@@ -29,7 +29,30 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-span img{
+span img {
   @apply w-6 h-6 cursor-pointer;
+}
+html,
+body {
+  overflow: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(158, 157, 157);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

@@ -24,4 +24,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.chat-header {
+  @apply px-4 py-2   flex justify-between items-center border-b;
+}
+.chat-header .title {
+  @apply w-full bg-white hover:bg-gray-50 cursor-pointer;
+}
+.chat-header .unfriend {
+  @apply px-3 py-1 text-sm bg-red-400 hover:bg-red-500 text-red-100 rounded;
+}
+</style>
