@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     formatDate(timestamp){
-      return moment(timestamp).format('h:mm')
+      return moment(timestamp * 1000).format('h:mm')
     },
     async sendMessage() {
       if (!this.message || this.message.trim() == "") {

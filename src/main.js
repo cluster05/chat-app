@@ -8,7 +8,7 @@ const app = createApp(App);
 
 app.use(
   new VueSocketIO({
-    connection: "http://localhost:8000/chat",
+    connection: `${process.env.VUE_APP_API_URL}/chat`,
   })
 );
 
