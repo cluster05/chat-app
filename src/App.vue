@@ -18,7 +18,6 @@ export default {
     if (token) {
       this.$store.commit("authanticate", { token });
     }
-    console.log("[App] mounted");
   },
   computed: {
     ...mapGetters(["isAuthanticated"]),

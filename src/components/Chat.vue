@@ -1,7 +1,22 @@
 <template>
   <div class="chat">
     <ChatHeader />
-    <div class="chatting"></div>
+    <div class="chatting">
+      <div
+        :class="{ 'text-right': user.authId == chatmsg.from }"
+        v-for="chatmsg in chatMessages"
+        :key="chatmsg.personalChatId"
+      >
+        <div class="chat-massage">
+          <span class="text">
+            {{ chatmsg.message }}
+          </span>
+          <span class="time">
+            {{ formatDate(chatmsg.createdAt) }}
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="message-box">
       <div class="message-field">
         <input
@@ -21,10 +36,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { io } from "socket.io-client";
 import ChatHeader from "./ChatHeader.vue";
-var socket;
-
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -33,14 +46,10 @@ export default {
     };
   },
   mounted() {
-    console.log(
-      "socket request send to  http://localhost:8000/chat on ",
-      this.chat.friend.friendshipId
-    );
-    socket = io("http://localhost:8000/socket.io/chat");
-    socket.emit("join", this.chat.friend.friendshipId);
-    socket.on("message", (chat) => {
-      this.chatMessages.push(chat);
+    this.$socket.emit("join", this.chat.friend.friendshipId);
+
+    this.sockets.subscribe("message", (data) => {
+      this.chatMessages.push(data);
     });
   },
   computed: {
@@ -50,23 +59,26 @@ export default {
     }),
   },
   methods: {
+    formatDate(timestamp){
+      return moment(timestamp).format('h:mm')
+    },
     async sendMessage() {
-      if (this.message.trim() == "") {
+      if (!this.message || this.message.trim() == "") {
         return;
       }
-      socket.emit("message", {
+      let payload = {
         friendshipId: this.chat.friend.friendshipId,
         from: this.user.authId,
         to: this.chat.friend.friendId,
         message: this.message.trim(),
-      });
+      };
+
+      this.$socket.emit("message", payload);
+
       this.message = "";
     },
   },
-  beforeUnmount() {
-    console.log("beforeUnmount");
-    socket.disconnect();
-  },
+  beforeUnmount() {},
   components: { ChatHeader },
 };
 </script>
@@ -85,6 +97,19 @@ export default {
   @apply px-3 py-1 text-sm bg-red-400 hover:bg-red-500 text-red-100 rounded;
 }
 .chatting {
+}
+
+.chat-massage {
+  width: max-content;
+  @apply m-1 px-3 py-1 bg-gray-100 text-gray-700 rounded border;
+}
+.text-right {
+  @apply w-full flex justify-end;
+}
+.chat-massage .text{}
+
+.chat-massage .time{
+  @apply ml-2 text-gray-500 text-sm;
 }
 
 .message-box {
