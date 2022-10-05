@@ -21,6 +21,9 @@ const store = createStore({
     getChat(state) {
       return state.chat;
     },
+    getTrack: (state) => (trackId) => {
+      return state.track[trackId];
+    },
   },
   mutations: {
     authanticate(state, payload) {
@@ -45,13 +48,15 @@ const store = createStore({
         ...initState,
       };
     },
+    setFriends(state, payload) {
+      state.friends = payload;
+    },
     setNewAddedFriend(state, payload) {
       let friends = state.friends;
       friends.push(payload);
+
+      state.track[payload.friendshipId] = [];
       state.friends = friends;
-    },
-    setFriends(state, payload) {
-      state.friends = payload;
     },
     setChat(state, payload) {
       state.chat = payload;
@@ -63,9 +68,22 @@ const store = createStore({
 
       friends.splice(index, 1);
 
-      state.chat.messages = [];
       state.chat.friend = {};
       state.friends = friends;
+    },
+    setTrackFriend(state, payload) {
+      let track = {};
+      let len = payload.length;
+      for (let i = 0; i < len; i++) {
+        track[payload[i].friendshipId] = [];
+      }
+      state.track = track;
+    },
+    addTrackFriendMessage(state, payload) {
+      const { friendshipId, chat } = payload;
+      let track = state.track;
+      track[friendshipId].push(chat);
+      state.track = track;
     },
   },
   actions: {
@@ -95,6 +113,7 @@ const store = createStore({
 
         if (response.data) {
           commit("setFriends", response.data.response);
+          commit("setTrackFriend", response.data.response);
         }
       } catch (error) {
         console.log("error fetchFriends");

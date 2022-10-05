@@ -38,12 +38,6 @@ export default {
     } catch (error) {
       console.log(error);
     }
-
-    this.$socket.emit("join", this.chat.friend.friendshipId);
-
-    this.sockets.subscribe("message", (data) => {
-      this.messages.push(data);
-    });
   },
   computed: {
     ...mapGetters({

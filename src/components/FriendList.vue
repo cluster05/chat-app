@@ -5,27 +5,27 @@
     <div class="friend-list-title">
       <h2>Friends List</h2>
     </div>
-    <FriendTile v-for="friend in friends" :friend="friend" :key="friend.friendshipId" />
+    <FriendTile
+      v-for="friend in friends"
+      :friend="friend"
+      :key="friend.friendshipId"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import SearchFriend from "./SearchFriend.vue";
-import User from "./User.vue";
-import FriendTile from "./FriendTile.vue";
+import User from "@/ui/User.vue";
+import FriendTile from "@/ui/FriendTile.vue";
 
 export default {
   components: { SearchFriend, User, FriendTile },
-  mounted() {
-    this.$store.dispatch("fetchFriends");
-  },
   computed: {
     ...mapGetters({
       friends: "getFriends",
     }),
   },
- 
 };
 </script>
 
@@ -36,7 +36,8 @@ export default {
 .friend-list h2 {
   @apply font-semibold;
 }
-.friend-list-header , .friend-list-title{
+.friend-list-header,
+.friend-list-title {
   @apply m-4 flex justify-between items-center;
 }
 .friend-list-item {

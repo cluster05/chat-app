@@ -14,21 +14,35 @@
 import FriendList from "@/components/FriendList.vue";
 import { mapGetters } from "vuex";
 import Chat from "@/components/Chat.vue";
-import SelectFriendToChat from "@/components/SelectFriendToChat.vue";
+import SelectFriendToChat from "@/ui/SelectFriendToChat.vue";
 export default {
   components: {
     FriendList,
     Chat,
     SelectFriendToChat,
   },
+  mounted() {
+    this.$store.dispatch("fetchFriends");
+
+    this.$socket.emit("join", this.user.authId);
+
+    this.sockets.subscribe("message", (data) => {
+      this.$store.commit("addTrackFriendMessage", {
+        friendshipId: data.friendshipId,
+        chat: data,
+      });
+    });
+  },
   computed: {
     ...mapGetters({
       chat: "getChat",
+      user: "getUser",
     }),
   },
   data() {
     return {};
   },
+  beforeUnmount() {},
 };
 </script>
 

@@ -1,12 +1,12 @@
 let state = {
+  isAuthanticated: false,
   token: "",
   user: {},
-  isAuthanticated: false,
   friends: [],
   chat: {
     friend: {},
-    group: {},
   },
+  track: {},
 };
 
 export default state;
