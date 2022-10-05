@@ -44,9 +44,12 @@ const store = createStore({
     },
     logout(state) {
       localStorage.removeItem("token");
-      state = {
-        ...initState,
-      };
+      state.isAuthanticated = false;
+      state.token = "";
+      state.user = {};
+      state.friends = [];
+      state.chat.friend = {};
+      state.track = {};
     },
     setFriends(state, payload) {
       state.friends = payload;
@@ -129,6 +132,19 @@ const store = createStore({
         });
         if (response.data) {
           commit("disconnetFriend", payload);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchTrackFriendMessages({ state }, payload) {
+      try {
+        let response = await http.post("/r/chat/personal", payload, {
+          headers: { Authorization: `Bearer ${state.token}` },
+        });
+        if (response.data && response.data.response) {
+          let { friendshipId } = payload;
+          state.track[friendshipId] = response.data.response;
         }
       } catch (error) {
         console.log(error);

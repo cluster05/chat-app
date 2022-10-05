@@ -15,29 +15,17 @@
 <script>
 import { mapGetters } from "vuex";
 import ChatHeader from "@/ui/ChatHeader.vue";
-import http from "@/service/http";
 import ChatMessage from "@/ui/ChatMessage.vue";
 import ChatInput from "@/ui/ChatInput.vue";
 export default {
   components: { ChatHeader, ChatMessage, ChatInput },
   data() {
-    return {
-      messages: [],
-    };
+    return {};
   },
-  async mounted() {
-    try {
-      let response = await http.post(
-        "/r/chat/personal",
-        { friendshipId: this.chat.friend.friendshipId },
-        { headers: { Authorization: `Bearer ${this.token}` } }
-      );
-      if (response.data && response.data.response) {
-        this.messages = response.data.response;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  mounted() {
+    this.$store.dispatch("fetchTrackFriendMessages", {
+      friendshipId: this.chat.friend.friendshipId,
+    });
   },
   computed: {
     ...mapGetters({
@@ -45,6 +33,9 @@ export default {
       user: "getUser",
       token: "getToken",
     }),
+    messages() {
+      return this.$store.getters.getTrack(this.chat.friend.friendshipId);
+    },
   },
   methods: {
     async sendMessage(message) {
