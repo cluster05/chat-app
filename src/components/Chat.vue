@@ -14,10 +14,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ChatHeader from "./ChatHeader.vue";
+import ChatHeader from "@/ui/ChatHeader.vue";
 import http from "@/service/http";
-import ChatMessage from "./ChatMessage.vue";
-import ChatInput from "./ChatInput.vue";
+import ChatMessage from "@/ui/ChatMessage.vue";
+import ChatInput from "@/ui/ChatInput.vue";
 export default {
   components: { ChatHeader, ChatMessage, ChatInput },
   data() {
@@ -70,8 +70,7 @@ export default {
 .text-right {
   @apply w-full flex justify-end;
 }
-.chat-container{
+.chat-container {
   overflow: auto;
-
 }
 </style>
