@@ -8,6 +8,7 @@
       <SelectFriendToChat v-else />
     </div>
   </div>
+  <Toast />
 </template>
 
 <script>
@@ -15,11 +16,13 @@ import FriendList from "@/components/FriendList.vue";
 import { mapGetters } from "vuex";
 import Chat from "@/components/Chat.vue";
 import SelectFriendToChat from "@/ui/SelectFriendToChat.vue";
+import Toast from "@/ui/Toast.vue";
 export default {
   components: {
     FriendList,
     Chat,
     SelectFriendToChat,
+    Toast,
   },
   mounted() {
     this.$store.dispatch("fetchFriends");
@@ -27,6 +30,11 @@ export default {
     this.$socket.emit("join", this.user.authId);
 
     this.sockets.subscribe("message", (data) => {
+      this.$store.commit("setToast", {
+        type: "info",
+        message: `New message from ${this.friendsKey[data.from]} : ${data.message}`,
+        friendshipId: data.friendshipId,
+      });
       this.$store.commit("addTrackFriendMessage", {
         friendshipId: data.friendshipId,
         chat: data,
@@ -37,6 +45,7 @@ export default {
     ...mapGetters({
       chat: "getChat",
       user: "getUser",
+      friendsKey: "getFriendsKey",
     }),
   },
   data() {
@@ -49,7 +58,7 @@ export default {
 <style scoped>
 .layout {
   @apply w-full xl:w-3/4 mx-auto sm:p-4 md:p-10 container grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5;
-  height : 100vh
+  height: 100vh;
 }
 
 .friend-list {
@@ -57,13 +66,13 @@ export default {
 }
 
 .chat-layout {
-  @apply  col-span-1 md:col-span-2 xl:col-span-3  border-2 border-l-0 border-gray-400 rounded-md relative;
+  @apply col-span-1 md:col-span-2 xl:col-span-3  border-2 border-l-0 border-gray-400 rounded-md relative;
 }
 
 .friend-list,
-  .chat-layout{
-    @apply overflow-y-scroll
-  }
+.chat-layout {
+  @apply overflow-y-scroll;
+}
 
 /* sm */
 @media (min-width: 640px) {

@@ -24,6 +24,12 @@ const store = createStore({
     getTrack: (state) => (trackId) => {
       return state.track[trackId];
     },
+    getToast(state) {
+      return state.toast;
+    },
+    getFriendsKey(state) {
+      return state.friendsKey;
+    },
   },
   mutations: {
     authanticate(state, payload) {
@@ -50,6 +56,9 @@ const store = createStore({
       state.friends = [];
       state.chat.friend = {};
       state.track = {};
+    },
+    setFriendsKey(state, payload) {
+      state.friendsKey = { ...state.friendsKey, ...payload };
     },
     setFriends(state, payload) {
       state.friends = payload;
@@ -88,6 +97,16 @@ const store = createStore({
       track[friendshipId].push(chat);
       state.track = track;
     },
+    setToast(state, payload) {
+      let toast = { type: payload.type || "default", message: payload.message };
+      if (state.chat.friend.friendshipId != payload.friendshipId) {
+        state.toast = toast;
+        let timeout = setTimeout(() => {
+          state.toast = {};
+          clearTimeout(timeout);
+        }, 5000);
+      }
+    },
   },
   actions: {
     async authanticate({ commit }, payload) {
@@ -117,8 +136,17 @@ const store = createStore({
         if (response.data) {
           commit("setFriends", response.data.response);
           commit("setTrackFriend", response.data.response);
+
+          let friendskey = {};
+          let process = response.data.response;
+          let len = process.length;
+          for (let i = 0; i < len; i++) {
+            friendskey[process[i].friendId] = process[i].friendName;
+          }
+          commit("setFriendsKey", friendskey);
         }
       } catch (error) {
+        console.log(error);
         alert(error.response.data.error || "error in fetching friends");
       }
     },

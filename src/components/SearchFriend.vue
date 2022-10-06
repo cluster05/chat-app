@@ -97,6 +97,10 @@ export default {
             meId: data.meId,
           };
           this.$store.commit("setNewAddedFriend", payload);
+          this.$store.commit("setFriendsKey", {
+            friendId: data.friendId,
+            friendName: friend.username,
+          });
         }
       } catch (error) {
         alert(error.response.data.error || "error in connecting friends");
