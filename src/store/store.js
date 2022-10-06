@@ -7,7 +7,7 @@ const store = createStore({
   state: initState,
   getters: {
     isAuthanticated(state) {
-      return state.token;
+      return state.isAuthanticated;
     },
     getToken(state) {
       return state.token;
@@ -99,13 +99,11 @@ const store = createStore({
     },
     setToast(state, payload) {
       let toast = { type: payload.type || "default", message: payload.message };
-      if (state.chat.friend.friendshipId != payload.friendshipId) {
-        state.toast = toast;
-        let timeout = setTimeout(() => {
-          state.toast = {};
-          clearTimeout(timeout);
-        }, 5000);
-      }
+      state.toast = toast;
+      let timeout = setTimeout(() => {
+        state.toast = {};
+        clearTimeout(timeout);
+      }, 5000);
     },
   },
   actions: {
@@ -146,7 +144,6 @@ const store = createStore({
           commit("setFriendsKey", friendskey);
         }
       } catch (error) {
-        console.log(error);
         alert(error.response.data.error || "error in fetching friends");
       }
     },

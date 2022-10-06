@@ -30,11 +30,14 @@ export default {
     this.$socket.emit("join", this.user.authId);
 
     this.sockets.subscribe("message", (data) => {
-      this.$store.commit("setToast", {
-        type: "info",
-        message: `New message from ${this.friendsKey[data.from]} : ${data.message}`,
-        friendshipId: data.friendshipId,
-      });
+      if (this.chat.friend.friendshipId != data.friendshipId) {
+        this.$store.commit("setToast", {
+          type: "info",
+          message: `New message from ${this.friendsKey[data.from]} : ${
+            data.message
+          }`,
+        });
+      }
       this.$store.commit("addTrackFriendMessage", {
         friendshipId: data.friendshipId,
         chat: data,
@@ -50,6 +53,15 @@ export default {
   },
   data() {
     return {};
+  },
+  beforeUpdate() {
+    if (this.user.exp < parseInt(Date.now() / 1000)) {
+      this.$store.commit("setToast", {
+        type: "danger",
+        message: "user session expired. please login again",
+      });
+      this.$store.commit("logout");
+    }
   },
   beforeUnmount() {},
 };
@@ -74,23 +86,10 @@ export default {
   @apply overflow-y-scroll;
 }
 
-/* sm */
 @media (min-width: 640px) {
   .friend-list,
   .chat-layout {
     height: calc(100vh-1rem);
   }
-}
-/* md */
-@media (min-width: 768px) {
-  .friend-list,
-  .chat-layout {
-    /* height: calc(100vh-2.5rem); */
-    height: calc(100vh - 30px);
-    overflow: hidden;
-  }
-}
-/* xl */
-@media (min-width: 1280px) {
 }
 </style>
