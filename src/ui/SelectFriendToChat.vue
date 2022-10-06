@@ -8,4 +8,8 @@
 export default {};
 </script>
 
-<style></style>
+<style>
+.select-friend-to-chat {
+  @apply w-full h-full font-bold capitalize text-xl md:text-3xl xl:text-5xl text-gray-300 select-none flex justify-center items-center;
+}
+</style>

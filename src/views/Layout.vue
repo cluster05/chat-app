@@ -48,17 +48,38 @@ export default {
 
 <style scoped>
 .layout {
-  @apply h-screen w-full xl:w-3/4 mx-auto p-4 md:p-10 container grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+  @apply w-full xl:w-3/4 mx-auto sm:p-4 md:p-10 container grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5;
+  height : 100vh
 }
 
 .friend-list {
-  @apply w-full h-full col-span-1 border rounded-md;
-}
-.chat-layout {
-  @apply w-full h-full  col-span-1 md:col-span-2 xl:col-span-3  border rounded-md relative;
+  @apply col-span-1 border-2 border-gray-400 rounded-md xl:col-span-2 relative overflow-x-hidden overflow-y-scroll;
 }
 
-.select-friend-to-chat {
-  @apply w-full h-full font-bold capitalize text-xl md:text-3xl xl:text-5xl text-gray-300 select-none flex justify-center items-center;
+.chat-layout {
+  @apply  col-span-1 md:col-span-2 xl:col-span-3  border-2 border-l-0 border-gray-400 rounded-md relative;
+}
+
+.friend-list,
+  .chat-layout{
+    @apply overflow-y-scroll
+  }
+
+/* sm */
+@media (min-width: 640px) {
+  .friend-list,
+  .chat-layout {
+    height: calc(100vh-1rem);
+  }
+}
+/* md */
+@media (min-width: 768px) {
+  .friend-list,
+  .chat-layout {
+    height: calc(100vh-2.5rem);
+  }
+}
+/* xl */
+@media (min-width: 1280px) {
 }
 </style>

@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .chat-message {
-  @apply w-full bg-white absolute bottom-0 left-0;
+  @apply w-full bg-white sticky bottom-0 left-0;
 }
 .chat-message-form-group {
   @apply p-2 flex items-center;

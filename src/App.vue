@@ -32,10 +32,10 @@ export default {
 span img {
   @apply w-6 h-6 cursor-pointer;
 }
-/* html,
+html,
 body {
   overflow: hidden;
-} */
+}
 /* width */
 ::-webkit-scrollbar {
   width: 3px;

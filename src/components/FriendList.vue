@@ -1,5 +1,5 @@
 <template>
-  <SearchFriend />
+    <SearchFriend />
   <User />
   <div class="friend-list">
     <div class="friend-list-title">
@@ -36,7 +36,6 @@ export default {
 .friend-list h2 {
   @apply font-semibold;
 }
-.friend-list-header,
 .friend-list-title {
   @apply m-4 flex justify-between items-center;
 }
