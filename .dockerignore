@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+Dockerfile
+.dockerignore
 
 # Log files
 npm-debug.log*
