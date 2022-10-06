@@ -1,6 +1,6 @@
 <template>
   <div class="toast-layout" v-if="this.toast.message">
-    <div class="toast" :class="getToastClass">{{this.toast.message}}</div>
+    <div class="toast" :class="getToastClass">{{ this.toast.message }}</div>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
 .toast-success {
   @apply bg-green-400 text-green-100;
 }
-.toast-danger {
+.toast-error {
   @apply bg-red-400 text-red-100;
 }
 .toast-info {

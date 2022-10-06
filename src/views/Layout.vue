@@ -8,7 +8,6 @@
       <SelectFriendToChat v-else />
     </div>
   </div>
-  <Toast />
 </template>
 
 <script>
@@ -16,13 +15,11 @@ import FriendList from "@/components/FriendList.vue";
 import { mapGetters } from "vuex";
 import Chat from "@/components/Chat.vue";
 import SelectFriendToChat from "@/ui/SelectFriendToChat.vue";
-import Toast from "@/ui/Toast.vue";
 export default {
   components: {
     FriendList,
     Chat,
     SelectFriendToChat,
-    Toast,
   },
   mounted() {
     this.$store.dispatch("fetchFriends");
