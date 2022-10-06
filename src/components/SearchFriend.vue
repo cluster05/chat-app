@@ -72,11 +72,12 @@ export default {
           this.searchlist = [];
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in searching friends");
       }
     },
     async connectFriend(friend) {
-      if (friend.friendId == this.user.authId) {
+      if (friend.authId == this.user.authId) {
+        alert("you cannot friend with yourself");
         return;
       }
 
@@ -98,7 +99,7 @@ export default {
           this.$store.commit("setNewAddedFriend", payload);
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in connecting friends");
       }
     },
   },

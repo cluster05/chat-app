@@ -97,7 +97,7 @@ const store = createStore({
           commit("authanticate", { token: response.data.response });
         }
       } catch (error) {
-        console.log("error authanticate");
+        alert(error.response.data.error || "error in authantication");
       }
     },
     async fetchFriends({ state, commit }) {
@@ -119,7 +119,7 @@ const store = createStore({
           commit("setTrackFriend", response.data.response);
         }
       } catch (error) {
-        console.log("error fetchFriends");
+        alert(error.response.data.error || "error in fetching friends");
       }
     },
     async connectFriend({ commit }, payload) {
@@ -134,7 +134,7 @@ const store = createStore({
           commit("disconnetFriend", payload);
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in disconnecting friends");
       }
     },
     async fetchTrackFriendMessages({ state }, payload) {
@@ -147,7 +147,7 @@ const store = createStore({
           state.track[friendshipId] = response.data.response;
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in fetching messages");
       }
     },
   },
