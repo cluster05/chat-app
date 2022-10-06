@@ -52,13 +52,13 @@ export default {
     return {};
   },
   beforeUpdate() {
-    if (this.user.exp < parseInt(Date.now() / 1000)) {
-      this.$store.commit("setToast", {
-        type: "danger",
-        message: "user session expired. please login again",
-      });
-      this.$store.commit("logout");
-    }
+    // if (this.user.exp < parseInt(Date.now() / 1000)) {
+    //   this.$store.commit("setToast", {
+    //     type: "danger",
+    //     message: "user session expired. please login again",
+    //   });
+    //   this.$store.commit("logout");
+    // }
   },
   beforeUnmount() {},
 };
@@ -71,11 +71,11 @@ export default {
 }
 
 .friend-list {
-  @apply col-span-1 border-2 border-gray-400 rounded-md xl:col-span-2 relative overflow-x-hidden overflow-y-scroll;
+  @apply col-span-1 border border-gray-400 rounded-md xl:col-span-2 relative overflow-x-hidden overflow-y-scroll;
 }
 
 .chat-layout {
-  @apply col-span-1 md:col-span-2 xl:col-span-3  border-2 border-l-0 border-gray-400 rounded-md relative;
+  @apply col-span-1 md:col-span-2 xl:col-span-3  border border-l-0 border-gray-400 rounded-md relative;
 }
 
 .friend-list,

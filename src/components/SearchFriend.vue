@@ -72,7 +72,10 @@ export default {
           this.searchlist = [];
         }
       } catch (error) {
-        alert(error.response.data.error || "error in searching friends");
+        this.$store.commit("setToast", {
+          type: "error",
+          message: error.response.data.error || "error in searching friends",
+        });
       }
     },
     async connectFriend(friend) {
@@ -103,7 +106,10 @@ export default {
           });
         }
       } catch (error) {
-        alert(error.response.data.error || "error in connecting friends");
+        this.$store.commit("setToast", {
+          type: "error",
+          message: error.response.data.error || "error in connecting friends",
+        });
       }
     },
   },
