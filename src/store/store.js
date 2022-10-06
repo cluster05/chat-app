@@ -7,7 +7,7 @@ const store = createStore({
   state: initState,
   getters: {
     isAuthanticated(state) {
-      return state.token;
+      return state.isAuthanticated;
     },
     getToken(state) {
       return state.token;
@@ -23,6 +23,12 @@ const store = createStore({
     },
     getTrack: (state) => (trackId) => {
       return state.track[trackId];
+    },
+    getToast(state) {
+      return state.toast;
+    },
+    getFriendsKey(state) {
+      return state.friendsKey;
     },
   },
   mutations: {
@@ -50,6 +56,9 @@ const store = createStore({
       state.friends = [];
       state.chat.friend = {};
       state.track = {};
+    },
+    setFriendsKey(state, payload) {
+      state.friendsKey = { ...state.friendsKey, ...payload };
     },
     setFriends(state, payload) {
       state.friends = payload;
@@ -88,6 +97,14 @@ const store = createStore({
       track[friendshipId].push(chat);
       state.track = track;
     },
+    setToast(state, payload) {
+      let toast = { type: payload.type || "default", message: payload.message };
+      state.toast = toast;
+      let timeout = setTimeout(() => {
+        state.toast = {};
+        clearTimeout(timeout);
+      }, 4000);
+    },
   },
   actions: {
     async authanticate({ commit }, payload) {
@@ -97,7 +114,10 @@ const store = createStore({
           commit("authanticate", { token: response.data.response });
         }
       } catch (error) {
-        console.log("error authanticate");
+        commit("setToast", {
+          type: "error",
+          message: error.response.data.error || "error in authantication",
+        });
       }
     },
     async fetchFriends({ state, commit }) {
@@ -117,9 +137,20 @@ const store = createStore({
         if (response.data) {
           commit("setFriends", response.data.response);
           commit("setTrackFriend", response.data.response);
+
+          let friendskey = {};
+          let process = response.data.response;
+          let len = process.length;
+          for (let i = 0; i < len; i++) {
+            friendskey[process[i].friendId] = process[i].friendName;
+          }
+          commit("setFriendsKey", friendskey);
         }
       } catch (error) {
-        console.log("error fetchFriends");
+        commit("setToast", {
+          type: "error",
+          message: error.response.data.error || "error in fetching friends",
+        });
       }
     },
     async connectFriend({ commit }, payload) {
@@ -134,7 +165,11 @@ const store = createStore({
           commit("disconnetFriend", payload);
         }
       } catch (error) {
-        console.log(error);
+        commit("setToast", {
+          type: "error",
+          message:
+            error.response.data.error || "error in disconnecting friends",
+        });
       }
     },
     async fetchTrackFriendMessages({ state }, payload) {
@@ -147,7 +182,10 @@ const store = createStore({
           state.track[friendshipId] = response.data.response;
         }
       } catch (error) {
-        console.log(error);
+        commit("setToast", {
+          type: "error",
+          message: error.response.data.error || "error in fetching messages",
+        });
       }
     },
   },

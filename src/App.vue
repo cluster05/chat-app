@@ -1,15 +1,18 @@
 <template>
   <Layout v-if="isAuthanticated" />
   <Auth v-else />
+  <Toast />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Auth from "./views/Auth.vue";
 import Layout from "./views/Layout.vue";
+import Toast from "@/ui/Toast.vue";
+
 export default {
   name: "App",
-  components: { Auth, Layout },
+  components: { Auth, Layout, Toast },
   data() {
     return {};
   },
@@ -32,10 +35,10 @@ export default {
 span img {
   @apply w-6 h-6 cursor-pointer;
 }
-/* html,
+html,
 body {
   overflow: hidden;
-} */
+}
 /* width */
 ::-webkit-scrollbar {
   width: 3px;

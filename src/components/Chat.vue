@@ -56,6 +56,9 @@ export default {
   @apply w-full flex justify-end;
 }
 .chat-container {
-  overflow: auto;
+  @apply h-full;
+  /* height: 100%; */
+    overflow: auto;
+
 }
 </style>

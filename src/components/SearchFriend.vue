@@ -1,27 +1,29 @@
 <template>
   <div class="search">
-    <div class="search-box">
-      <span> <img src="@/assets/icons/search.svg" alt="log_out" /> </span>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        v-model="search"
-        @input="debounceHandler"
-        placeholder="search your friend here"
-      />
-      <span v-if="search.length > 0" @click="closeSearchFriend">
-        <img src="@/assets/icons/close.svg" alt="close" />
-      </span>
-    </div>
-    <div class="search-result">
-      <div
-        class="search-result-item"
-        v-for="search in searchlist"
-        :key="search.authId"
-      >
-        <p>@{{ search.username }}</p>
-        <button @click="connectFriend(search)">connect</button>
+    <div>
+      <div class="search-box">
+        <span> <img src="@/assets/icons/search.svg" alt="log_out" /> </span>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          v-model="search"
+          @input="debounceHandler"
+          placeholder="search your friend here"
+        />
+        <span v-if="search.length > 0" @click="closeSearchFriend">
+          <img src="@/assets/icons/close.svg" alt="close" />
+        </span>
+      </div>
+      <div class="search-result">
+        <div
+          class="search-result-item"
+          v-for="search in searchlist"
+          :key="search.authId"
+        >
+          <p>@{{ search.username }}</p>
+          <button @click="connectFriend(search)">connect</button>
+        </div>
       </div>
     </div>
   </div>
@@ -70,11 +72,12 @@ export default {
           this.searchlist = [];
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in searching friends");
       }
     },
     async connectFriend(friend) {
-      if (friend.friendId == this.user.authId) {
+      if (friend.authId == this.user.authId) {
+        alert("you cannot friend with yourself");
         return;
       }
 
@@ -94,9 +97,13 @@ export default {
             meId: data.meId,
           };
           this.$store.commit("setNewAddedFriend", payload);
+          this.$store.commit("setFriendsKey", {
+            friendId: data.friendId,
+            friendName: friend.username,
+          });
         }
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.error || "error in connecting friends");
       }
     },
   },
@@ -105,10 +112,10 @@ export default {
 
 <style scoped>
 .search {
-  @apply relative;
+  @apply p-2 sticky top-0 left-0 bg-white;
 }
 .search-box {
-  @apply m-2 px-2 rounded border flex items-center;
+  @apply px-2 rounded border flex items-center;
 }
 input {
   @apply w-full ml-1 py-2 px-4 text-sm focus:outline-none;

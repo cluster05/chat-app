@@ -25,4 +25,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+  .friend-list-header {
+  @apply m-4 flex justify-between items-center;
+}
+</style>

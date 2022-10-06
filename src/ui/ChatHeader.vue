@@ -26,7 +26,7 @@ export default {
 
 <style>
 .chat-header {
-  @apply px-4 py-2   flex justify-between items-center border-b;
+  @apply px-4 py-2 flex justify-between items-center border-b sticky top-0 bg-white;
 }
 .chat-header .title {
   @apply w-full bg-white hover:bg-gray-50 cursor-pointer;
