@@ -25,7 +25,8 @@ export default {
 <style scoped>
 .chat-massage {
   width: max-content;
-  @apply m-1 px-3 py-1 bg-gray-100 text-gray-700 rounded border;
+  @apply m-1 px-3 py-1 bg-gray-100 text-gray-700 rounded border ;
+  bottom: -41px;
 }
 
 .chat-massage .text {

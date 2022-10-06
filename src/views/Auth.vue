@@ -54,8 +54,8 @@ export default {
   data() {
     return {
       authstate: {
-        register: true,
-        login: false,
+        register: false,
+        login: true,
       },
       showPassword: false,
       form: {

@@ -57,6 +57,8 @@ export default {
 }
 .chat-container {
   @apply h-full;
+  /* height: 100%; */
+    overflow: auto;
 
 }
 </style>

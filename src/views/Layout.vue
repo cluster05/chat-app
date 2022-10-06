@@ -76,7 +76,9 @@ export default {
 @media (min-width: 768px) {
   .friend-list,
   .chat-layout {
-    height: calc(100vh-2.5rem);
+    /* height: calc(100vh-2.5rem); */
+    height: calc(100vh - 30px);
+    overflow: hidden;
   }
 }
 /* xl */
