@@ -1,6 +1,6 @@
 # Alpine is chosen for its small footprint
 # compared to Ubuntu
-FROM node:lts-alpine
+FROM node:14-alpine
 
 # install simple http server for serving static content
 RUN npm install -g http-server
@@ -9,7 +9,7 @@ RUN npm install -g http-server
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
-COPY package*.json ./
+COPY package.json ./
 
 # install project dependencies
 RUN npm install
@@ -24,4 +24,4 @@ RUN npm run build
 EXPOSE 8080
 
 # run simple http-server 
-CMD [ "http-server", "dist" ]
+CMD [ "http-server dist -p 8080" ]
